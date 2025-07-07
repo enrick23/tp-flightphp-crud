@@ -46,4 +46,14 @@ class Etablissement
         $stmt = $this->db->prepare("DELETE FROM etablissement WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    public function ajoutFond($id, $data)
+    {
+        $stmt = $pdo->prepare("CALL ajoutFond(:id, :amount)");
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':amount', $data['amount'], PDO::PARAM_STR); 
+
+        return $stmt->execute();
+    }
 }

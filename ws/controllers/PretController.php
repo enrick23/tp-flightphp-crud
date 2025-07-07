@@ -1,35 +1,37 @@
 <?php
-require_once __DIR__ . '/../models/Etudiant.php';
+require_once __DIR__ . '/../models/TypePret.php';
 require_once __DIR__ . '/../helpers/Utils.php';
+require_once __DIR__ . '/../db.php';
 
 
 
-class EtudiantController {
+class PretController {
+    private static $typepret = new TypePret(getDB());
     public static function getAll() {
-        $etudiants = Etudiant::getAll();
-        Flight::json($etudiants);
+        $resultat = $typepret::getAll();
+        Flight::json($resultat);
     }
 
     public static function getById($id) {
-        $etudiant = Etudiant::getById($id);
-        Flight::json($etudiant);
+        $resultat = $typepret::getById($id);
+        Flight::json($resultat);
     }
 
     public static function create() {
         $data = Flight::request()->data;
-        $id = Etudiant::create($data);
+        $id = $typepret::create($data);
         $dateFormatted = Utils::formatDate('2025-01-01');
-        Flight::json(['message' => 'Étudiant ajouté', 'id' => $id]);
+        Flight::json(['message' => 'Type de pret ajouté', 'id' => $id]);
     }
 
     public static function update($id) {
         $data = Flight::request()->data;
-        Etudiant::update($id, $data);
-        Flight::json(['message' => 'Étudiant modifié']);
+        $typepret::update($id, $data);
+        Flight::json(['message' => 'Type de pret modifié']);
     }
 
     public static function delete($id) {
-        Etudiant::delete($id);
-        Flight::json(['message' => 'Étudiant supprimé']);
+        $typepret::delete($id);
+        Flight::json(['message' => 'Type de pret supprimé']);
     }
 }

@@ -39,3 +39,18 @@ CREATE TABLE pret_client (
     FOREIGN KEY (id_client) REFERENCES client(id),
     FOREIGN KEY (id_type_pret) REFERENCES type_pret(id)
 );
+
+
+DELIMITER //
+
+CREATE PROCEDURE AjoutFond(
+    IN p_id INT,
+    IN p_amount DECIMAL(15,2)
+)
+BEGIN
+    UPDATE etablissement
+    SET montant_disponible = montant_disponible + p_amount
+    WHERE id = p_id;
+END //
+
+DELIMITER ;

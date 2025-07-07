@@ -1,40 +1,42 @@
 <?php
-require_once __DIR__ . '/../models/Etudiant.php';
+require_once __DIR__ . '/../models/Etablissement.php';
 require_once __DIR__ . '/../helpers/Utils.php';
+require_once __DIR__ . '/../db.php';
 
 
-
-class EtudiantController {
+class EFController {
+    private static $etablissement = new Etablissement(getDB());
     public static function getAll() {
-        $etudiants = Etudiant::getAll();
-        Flight::json($etudiants);
+        $resultat = $etablissement::getAll();
+        Flight::json($resultat);
     }
 
     public static function getById($id) {
-        $etudiant = Etudiant::getById($id);
-        Flight::json($etudiant);
+        $resultat = $etablissement::getById($id);
+        Flight::json($resultat);
     }
 
     public static function create() {
         $data = Flight::request()->data;
-        $id = Etudiant::create($data);
+        $id = $etablissement::create($data);
         $dateFormatted = Utils::formatDate('2025-01-01');
-        Flight::json(['message' => 'Étudiant ajouté', 'id' => $id]);
+        Flight::json(['message' => 'Etablissement ajouté', 'id' => $id]);
     }
 
     public static function update($id) {
         $data = Flight::request()->data;
-        Etudiant::update($id, $data);
-        Flight::json(['message' => 'Étudiant modifié']);
+        $etablissement::update($id, $data);
+        Flight::json(['message' => 'Etablissement modifié']);
     }
 
     public static function delete($id) {
-        Etudiant::delete($id);
-        Flight::json(['message' => 'Étudiant supprimé']);
+        $etablissement::delete($id);
+        Flight::json(['message' => 'Etablissement supprimé']);
     }
 
      public static function ajoutFond($id) {
-        Etudiant::delete($id);
-        Flight::json(['message' => 'Étudiant supprimé']);
+       $data = Flight::request()->data;
+        $etablissement::ajoutFond($id, $data);
+        Flight::json(['message' => 'Etablissement modifié']);
     }
 }
